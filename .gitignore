@@ -34,3 +34,18 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+
+# Vuforia
+Assets/Editor
+Assets/Editor.meta
+Assets/MyLibrary
+Assets/MyLibrary.meta
+Assets/Resources
+Assets/Resources.meta
+Assets/StreamingAssets
+Assets/StreamingAssets.meta
+Assets/Vuforia
+Assets/Vuforia.meta
+QCAR/
+.DS_Store
