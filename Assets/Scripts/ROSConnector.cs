@@ -79,8 +79,8 @@ public class ROSConnector : MonoBehaviour {
     [System.Serializable]
     public class Stamp
     {
-        public int secs;
-        public int nsecs;
+        public float secs;
+        public float nsecs;
     }
 
     // PoseStamped Message ----------------------------------------
@@ -106,6 +106,22 @@ public class ROSConnector : MonoBehaviour {
         public Quaternion orientation;
     }
 
+    // Bool Message -----------------------------------------------
+    [System.Serializable]
+    public class ROSData3
+    {
+        public string op;
+        public string topic;
+        public String msg;
+    }
+
+    [System.Serializable]
+    public class String
+    {
+        public string data;
+    }
+
+
     //-------------------------------------------------------------
     // マーカを認識するスクリプトへアクセス
     public GameObject ImageTarget;
@@ -119,12 +135,13 @@ public class ROSConnector : MonoBehaviour {
 
     WebSocket ws_sub;
     WebSocket ws_pub;
+    WebSocket ws_pub2;
 
     // ROSへ接続しているかどうか
-    bool isConnect = false;
+    bool isConnect;
 
     // キャリブレーションを開始する
-    public bool isStart = false;
+    public bool isStart;
 
     // ROS PC IP Address
     public string ipAddress = "192.168.22.12";
@@ -132,6 +149,7 @@ public class ROSConnector : MonoBehaviour {
     // Topic Name
     string topic_sub = "/odom";
     string topic_pub = "/true_pose";
+    string topic_pub2 = "/onoff";
 
     // op Name
     string op_sub = "subscribe";
@@ -140,6 +158,7 @@ public class ROSConnector : MonoBehaviour {
     // type Name
     string type_odom = "geometry_msgs/Odometry";
     string type_pose = "geometry_msgs/PoseStamped";
+    string type_string = "std_msgs/String";
 
     // 計測したロボットの座標を保存
     public List<Vector3> odomPosiArray;
@@ -156,11 +175,13 @@ public class ROSConnector : MonoBehaviour {
     public Text startButtonText;
     public Text XZText;
     public Text YText;
+    public Text IsStartText;
+    public Text IsMarkerFoundText;
 
     // Vuforiaのマーカ認識スクリプトから参照
-    bool isMarkerFound = false;
-    Vector3 trueRobotPosition = Vector3.zero;
-    Quaternion trueRobotRotation = Quaternion.identity;
+    bool isMarkerFound;
+    Vector3 trueRobotPosition;
+    Quaternion trueRobotRotation;
 
     // サブスクライブしたロボットの姿勢データ
     Vector3 RobotPosition = Vector3.zero;
@@ -171,33 +192,54 @@ public class ROSConnector : MonoBehaviour {
     Quaternion RobotRotation_before = Quaternion.identity;
     Vector3 trueRobotPosition_before = Vector3.zero;
     Quaternion trueRobotRotation_before = Quaternion.identity;
+
+    // Unity側で時間を計測
+    float unity_time;
     //-------------------------------------------------------------
 
 	void Start () {
         MyInit();
         WsSetting_sub();
         WsSetting_pub();
+        WsSetting_pub2();
 	}
 
     // 変数初期化
 	void MyInit ()
 	{
+        unity_time = 0;
+        isStart = false;
+        isConnect = false;
+        isMarkerFound = false;
         odomPosiArray = new List<Vector3>();
         odomPosiArray.Add(new Vector3(0, 0, 0));
         odomRotaArray = new List<Quaternion>();
         odomRotaArray.Add(new Quaternion(0, 0, 0, 0));
+
+        trueRobotPosition = Vector3.zero;
+        trueRobotRotation = Quaternion.identity;
 	}
 
 	void Update () {
         // Update 一周期分の時間を足す
         delta_sub += Time.deltaTime;
         delta_pub += Time.deltaTime;
+
         // DefaultTrackableEventHandlerを参照
         isMarkerFound = ImageTarget.GetComponent<DefaultTrackableEventHandler>().isFound;
+
+        IsStartText.text = isStart.ToString();
+        IsMarkerFoundText.text = isMarkerFound.ToString();
+
+        if(isMarkerFound == true)
+        {
+            unity_time += Time.deltaTime;
+        }
         // publish
         if(isMarkerFound == true && delta_pub >= span_pub)
         {
             delta_pub = 0;
+            //PublishFunc2();
             PublishFunc();
         }
         // arrow生成
@@ -280,6 +322,39 @@ public class ROSConnector : MonoBehaviour {
         };
     }
 
+    void WsSetting_pub2()
+    {
+        ws_pub2 = new WebSocket("ws://" + ipAddress + ":9090/");
+
+        ws_pub2.OnOpen += (sender, e) =>
+        {
+            Debug.Log("WebSocket Open!!");
+            RosData_pub data = new RosData_pub();
+            data.op = op_pub;
+            data.topic = topic_pub2;
+            data.type = type_string;
+            string json = JsonUtility.ToJson(data);
+            ws_pub2.Send(json);
+        };
+
+        ws_pub2.OnError += (sender, e) =>
+        {
+            Debug.Log("WebSocket Error Message : " + e.Message);
+        };
+
+        ws_pub2.OnClose += (sender, e) =>
+        {
+            Debug.Log("Websocket Close");
+            RosData_pub data = new RosData_pub();
+            data.op = "un" + op_pub;
+            data.topic = topic_pub2;
+            data.type = type_string;
+            string json = JsonUtility.ToJson(data);
+            ws_pub2.Send(json);
+        };
+    }
+
+
     // 計測したロボットの姿勢に合わせて矢印オブジェクトを生成 --------------
     void ArrowInstantiateTrueOdom()
     {
@@ -341,8 +416,8 @@ public class ROSConnector : MonoBehaviour {
 
         // message内容作成
         Stamp stamp = new Stamp();
-        stamp.secs = 0;
-        stamp.nsecs = 0;
+        stamp.secs = unity_time;
+        stamp.nsecs = unity_time;
 
         Header header = new Header();
         header.stamp = stamp;
@@ -374,11 +449,24 @@ public class ROSConnector : MonoBehaviour {
         ws_pub.Send(json);
     }
 
+    void PublishFunc2()
+    {
+        ROSData3 d = new ROSData3();
+        d.op = "publish";
+        d.topic = topic_pub2;
+        d.msg.data = "true";
+        // パースと送信
+        string json = JsonUtility.ToJson(d);
+        Debug.Log(json);
+        ws_pub2.Send(json);
+    }
+
     // アプリケーション終了時------------------------------------------
     private void OnApplicationQuit()
     {
         ws_sub.Close();
         ws_pub.Close();
+        ws_pub2.Close();
     }
 
     // ボタンから接続と切断を操作---------------------------------------
@@ -388,6 +476,7 @@ public class ROSConnector : MonoBehaviour {
         {
             ws_sub.Close();
             ws_pub.Close();
+            ws_pub2.Close();
             isConnect = false;
             connectButtonText.text = "Connect";
             Debug.Log("Websocket Close ......");
@@ -396,6 +485,7 @@ public class ROSConnector : MonoBehaviour {
         {
             ws_sub.Connect();
             ws_pub.Connect();
+            ws_pub2.Connect();
             isConnect = true;
             connectButtonText.text = "DisConnect";
             Debug.Log("Websocket Connect!!");
