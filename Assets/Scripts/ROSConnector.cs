@@ -112,13 +112,13 @@ public class ROSConnector : MonoBehaviour {
     {
         public string op;
         public string topic;
-        public String msg;
+        public Msg msg;
     }
 
     [System.Serializable]
-    public class String
+    public class Msg
     {
-        public string data;
+        public int data;
     }
 
 
@@ -158,7 +158,7 @@ public class ROSConnector : MonoBehaviour {
     // type Name
     string type_odom = "geometry_msgs/Odometry";
     string type_pose = "geometry_msgs/PoseStamped";
-    string type_string = "std_msgs/String";
+    string type_int = "std_msgs/Int16";
 
     // 計測したロボットの座標を保存
     public List<Vector3> odomPosiArray;
@@ -332,7 +332,7 @@ public class ROSConnector : MonoBehaviour {
             RosData_pub data = new RosData_pub();
             data.op = op_pub;
             data.topic = topic_pub2;
-            data.type = type_string;
+            data.type = type_int;
             string json = JsonUtility.ToJson(data);
             ws_pub2.Send(json);
         };
@@ -348,7 +348,7 @@ public class ROSConnector : MonoBehaviour {
             RosData_pub data = new RosData_pub();
             data.op = "un" + op_pub;
             data.topic = topic_pub2;
-            data.type = type_string;
+            data.type = type_int;
             string json = JsonUtility.ToJson(data);
             ws_pub2.Send(json);
         };
@@ -454,7 +454,7 @@ public class ROSConnector : MonoBehaviour {
         ROSData3 d = new ROSData3();
         d.op = "publish";
         d.topic = topic_pub2;
-        d.msg.data = "true";
+        d.msg.data = 1;
         // パースと送信
         string json = JsonUtility.ToJson(d);
         Debug.Log(json);
