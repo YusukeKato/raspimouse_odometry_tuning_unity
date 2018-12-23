@@ -137,6 +137,7 @@ public class ROSConnector : MonoBehaviour {
     Quaternion origin_rotation;
 
     WebSocket ws_sub;
+    WebSocket ws_sub2;
     WebSocket ws_pub;
     WebSocket ws_pub2;
 
@@ -151,8 +152,9 @@ public class ROSConnector : MonoBehaviour {
 
     // Topic Name
     string topic_sub = "/odom";
+    string topic_sub2 = "/calibr_flag2";
     string topic_pub = "/true_pose";
-    string topic_pub2 = "/onoff";
+    string topic_pub2 = "/calibr_flag";
 
     // op Name
     string op_sub = "subscribe";
@@ -198,11 +200,15 @@ public class ROSConnector : MonoBehaviour {
 
     // Unity側で時間を計測
     float unity_time;
+
+    // キャリブレーションのタイミング管理
+    int calibr_flag = 0;
     //-------------------------------------------------------------
 
 	void Start () {
         MyInit();
         WsSetting_sub();
+        WsSetting_sub2();
         WsSetting_pub();
         WsSetting_pub2();
 	}
@@ -249,6 +255,7 @@ public class ROSConnector : MonoBehaviour {
             delta_pub = 0;
             //PublishFunc2();
             PublishFunc();
+            PublishFunc2();
         }
         // arrow生成
         if(isMarkerFound == true)
@@ -294,6 +301,45 @@ public class ROSConnector : MonoBehaviour {
             {
                 delta_sub = 0;
                 SubscribeFunc(e.Data);
+            }
+        };
+    }
+
+    void WsSetting_sub2()
+    {
+        ws_sub2 = new WebSocket("ws://" + ipAddress + ":9090/");
+
+        ws_sub2.OnOpen += (sender, e) =>
+        {
+            Debug.Log("WebSocket Open!!");
+            RosData_sub data = new RosData_sub();
+            data.op = op_sub;
+            data.topic = topic_sub2;
+            string json = JsonUtility.ToJson(data);
+            ws_sub2.Send(json);
+        };
+
+        ws_sub2.OnError += (sender, e) =>
+        {
+            Debug.Log("WebSocket Error Message : " + e.Message);
+        };
+
+        ws_sub2.OnClose += (sender, e) =>
+        {
+            Debug.Log("Websocket Close");
+            RosData_sub data = new RosData_sub();
+            data.op = "un" + op_sub;
+            data.topic = topic_sub2;
+            string json = JsonUtility.ToJson(data);
+            ws_sub2.Send(json);
+        };
+
+        ws_sub2.OnMessage += (sender, e) =>
+        {
+            if (delta_sub >= span_sub)
+            {
+                delta_sub = 0;
+                SubscribeFunc2(e.Data);
             }
         };
     }
@@ -414,6 +460,12 @@ public class ROSConnector : MonoBehaviour {
         //odomRotaArray.Add(odomOrientation);
     }
 
+    void SubscribeFunc2(string message)
+    {
+        ROSData3 data = JsonUtility.FromJson<ROSData3>(message);
+        calibr_flag = data.msg.data;
+    }
+
     // パブリッシュの内容 --------------------------------------------
     void PublishFunc()
     {
@@ -462,10 +514,13 @@ public class ROSConnector : MonoBehaviour {
 
     void PublishFunc2()
     {
+        Msg msg = new Msg();
+        msg.data = 1;
+
         ROSData3 d = new ROSData3();
         d.op = "publish";
         d.topic = topic_pub2;
-        d.msg.data = 1;
+        d.msg = msg;
         // パースと送信
         string json = JsonUtility.ToJson(d);
         Debug.Log(json);
@@ -476,6 +531,7 @@ public class ROSConnector : MonoBehaviour {
     private void OnApplicationQuit()
     {
         ws_sub.Close();
+        ws_sub2.Close();
         ws_pub.Close();
         ws_pub2.Close();
     }
@@ -486,6 +542,7 @@ public class ROSConnector : MonoBehaviour {
         if (isConnect == true)
         {
             ws_sub.Close();
+            ws_sub2.Close();
             ws_pub.Close();
             ws_pub2.Close();
             isConnect = false;
@@ -495,6 +552,7 @@ public class ROSConnector : MonoBehaviour {
         else if (isConnect == false)
         {
             ws_sub.Connect();
+            ws_sub2.Connect();
             ws_pub.Connect();
             ws_pub2.Connect();
             isConnect = true;
