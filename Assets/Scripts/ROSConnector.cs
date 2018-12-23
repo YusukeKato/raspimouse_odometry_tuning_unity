@@ -132,6 +132,9 @@ public class ROSConnector : MonoBehaviour {
     // 軌道を示す矢印オブジェクトのプレハブ
     public GameObject ArrowBluePrefab;
     public GameObject ArrowRedPrefab;
+    List<GameObject> ArrowList;
+    Vector3 origin_position;
+    Quaternion origin_rotation;
 
     WebSocket ws_sub;
     WebSocket ws_pub;
@@ -218,6 +221,11 @@ public class ROSConnector : MonoBehaviour {
 
         trueRobotPosition = Vector3.zero;
         trueRobotRotation = Quaternion.identity;
+
+        ArrowList = new List<GameObject>();
+
+        origin_position = Vector3.zero;
+        origin_rotation = Quaternion.identity;
 	}
 
 	void Update () {
@@ -362,6 +370,7 @@ public class ROSConnector : MonoBehaviour {
         {
             // Arrow生成
             GameObject arrow = Instantiate(ArrowBluePrefab);
+            ArrowList.Add(arrow);
             arrow.transform.parent = ParentObject.transform;
             arrow.transform.localPosition = trueRobotPosition;
             arrow.transform.localRotation = trueRobotRotation;
@@ -379,10 +388,12 @@ public class ROSConnector : MonoBehaviour {
         {
             // Arrow生成
             GameObject arrow = Instantiate(ArrowRedPrefab);
+            ArrowList.Add(arrow);
             arrow.transform.parent = ParentObject.transform;
-            arrow.transform.localPosition = RobotPosition;
+            arrow.transform.localPosition = RobotPosition - origin_position;
             arrow.transform.localRotation = RobotRotation;
-            arrow.transform.Rotate(0, 180f, 0);
+            Vector3 e = origin_rotation.eulerAngles;
+            arrow.transform.Rotate(0, 180f - e.y, 0);
             // 一つ前の座標更新
             RobotPosition_before = RobotPosition;
             RobotRotation_before = RobotRotation;
@@ -506,4 +517,21 @@ public class ROSConnector : MonoBehaviour {
             startButtonText.text = "Start";
         }
     }
+
+    // ------------------------------------------------------------
+
+    public void ArrowResetButton()
+    {
+        for (int i = 0; i < ArrowList.Count; i++)
+        {
+            Destroy(ArrowList[i]);
+        }
+
+        ArrowList.Clear();
+
+        origin_position = trueRobotPosition;
+        origin_rotation = trueRobotRotation;
+    }
 }
+
+
