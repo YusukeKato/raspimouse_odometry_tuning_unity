@@ -152,13 +152,15 @@ public class ROSConnector : MonoBehaviour {
 
     // Topic Name
     string topic_sub = "/odom";
-    string topic_sub2 = "/calibr_flag2";
+    string topic_sub2 = "/calibr_flag_2";
     string topic_pub = "/true_pose";
     string topic_pub2 = "/calibr_flag";
 
     // op Name
     string op_sub = "subscribe";
     string op_pub = "advertise";
+    string op_p = "publish";
+    string op_un = "unadvertise";
 
     // type Name
     string type_odom = "geometry_msgs/Odometry";
@@ -175,6 +177,8 @@ public class ROSConnector : MonoBehaviour {
     float span_pub = 0.1f;
     float delta_pub = 0;
 
+    float span_flagpub = 1f;
+    float delta_flagpub = 0;
     // Text
     public Text connectButtonText;
     public Text startButtonText;
@@ -182,6 +186,7 @@ public class ROSConnector : MonoBehaviour {
     public Text YText;
     public Text IsStartText;
     public Text IsMarkerFoundText;
+    public Text CalibrationFlagText;
 
     // Vuforiaのマーカ認識スクリプトから参照
     bool isMarkerFound;
@@ -202,7 +207,8 @@ public class ROSConnector : MonoBehaviour {
     float unity_time;
 
     // キャリブレーションのタイミング管理
-    int calibr_flag = 0;
+    int calibr_flag = 1;
+    int flag_pre = 0;
     //-------------------------------------------------------------
 
 	void Start () {
@@ -239,6 +245,23 @@ public class ROSConnector : MonoBehaviour {
         delta_sub += Time.deltaTime;
         delta_pub += Time.deltaTime;
 
+        delta_flagpub += Time.deltaTime;
+
+        CalibrationFlagText.text = calibr_flag.ToString();
+        //if (calibr_flag == 3)
+        //{
+        //    flag_pre = 0;
+        //    PublishFunc2(0);
+        //}
+        //else if (calibr_flag == 4)
+        //{
+        //    PublishFunc2(5);
+        //}
+        //else if (calibr_flag == 1)
+        //{
+        //    PublishFunc2(flag_pre);
+        //}
+
         // DefaultTrackableEventHandlerを参照
         isMarkerFound = ImageTarget.GetComponent<DefaultTrackableEventHandler>().isFound;
 
@@ -253,9 +276,7 @@ public class ROSConnector : MonoBehaviour {
         if(isMarkerFound == true && delta_pub >= span_pub)
         {
             delta_pub = 0;
-            //PublishFunc2();
             PublishFunc();
-            PublishFunc2();
         }
         // arrow生成
         if(isMarkerFound == true)
@@ -464,6 +485,7 @@ public class ROSConnector : MonoBehaviour {
     {
         ROSData3 data = JsonUtility.FromJson<ROSData3>(message);
         calibr_flag = data.msg.data;
+        Debug.Log(calibr_flag);
     }
 
     // パブリッシュの内容 --------------------------------------------
@@ -508,14 +530,14 @@ public class ROSConnector : MonoBehaviour {
 
         // パースと送信
         string json = JsonUtility.ToJson(data);
-        Debug.Log(json);
+        //Debug.Log(json);
         ws_pub.Send(json);
     }
 
-    void PublishFunc2()
+    void PublishFunc2(int cflag)
     {
         Msg msg = new Msg();
-        msg.data = 1;
+        msg.data = cflag;
 
         ROSData3 d = new ROSData3();
         d.op = "publish";
@@ -523,7 +545,7 @@ public class ROSConnector : MonoBehaviour {
         d.msg = msg;
         // パースと送信
         string json = JsonUtility.ToJson(d);
-        Debug.Log(json);
+        //Debug.Log(json);
         ws_pub2.Send(json);
     }
 
@@ -542,9 +564,9 @@ public class ROSConnector : MonoBehaviour {
         if (isConnect == true)
         {
             ws_sub.Close();
-            ws_sub2.Close();
+            //ws_sub2.Close();
             ws_pub.Close();
-            ws_pub2.Close();
+            //ws_pub2.Close();
             isConnect = false;
             connectButtonText.text = "Connect";
             Debug.Log("Websocket Close ......");
@@ -552,9 +574,9 @@ public class ROSConnector : MonoBehaviour {
         else if (isConnect == false)
         {
             ws_sub.Connect();
-            ws_sub2.Connect();
+            //ws_sub2.Connect();
             ws_pub.Connect();
-            ws_pub2.Connect();
+            //ws_pub2.Connect();
             isConnect = true;
             connectButtonText.text = "DisConnect";
             Debug.Log("Websocket Connect!!");
@@ -589,6 +611,17 @@ public class ROSConnector : MonoBehaviour {
 
         origin_position = trueRobotPosition;
         origin_rotation = trueRobotRotation;
+    }
+
+    // ------------------------------------------------------------
+    public void CalibrationFlagButton()
+    {
+        if(calibr_flag == 1)
+        {
+            flag_pre = 2;
+            //PublishFunc2(2);
+            Debug.Log("2222222222");
+        }
     }
 }
 
