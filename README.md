@@ -1,5 +1,8 @@
-# raspimouse_odometry_tuning_unity
+﻿# raspimouse_odometry_tuning_unity
 Unity用パッケージ
+
+## 動作時の参考動画
+https://youtu.be/QYnU6PeEx8s
 
 ## 動作確認した環境
 
