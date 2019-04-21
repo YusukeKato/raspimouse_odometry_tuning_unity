@@ -4,11 +4,11 @@ ARライブラリを用いて移動ロボットの動きを
 
 ## 機能
 
-- ロボットのオドメトリを可視化
-- ロボットが実際に移動した経路を可視化
+- ロボットのオドメトリを可視化（画像の赤色の矢印）
+- ロボットが実際に移動した経路を可視化（画像の青色の矢印）
 - ロボットの動きをキャリブレーション
 
-<img src=https://github.com/YusukeKato/Images_Repository/blob/master/ROC_SampleImage.png width=20%>
+<img src=https://github.com/YusukeKato/Images_Repository/blob/master/ROC_SampleImage.png width=34%>
 
 ## 動画
 YouTube : https://youtu.be/QYnU6PeEx8s
