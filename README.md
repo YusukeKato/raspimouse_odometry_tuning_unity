@@ -1,10 +1,17 @@
 ﻿# raspimouse_odometry_tuning_unity
-Unity用パッケージ
+ARライブラリを用いて移動ロボットの動きを
+キャリブレーションするアプリケーションです。
 
-## 動作時の参考動画
+## 機能
+
+- ロボットのオドメトリを可視化
+- ロボットが実際に移動した経路を可視化
+- ロボットの動きをキャリブレーション
+
+<img src=https://github.com/YusukeKato/Images_Repository/blob/master/ROC_SampleImage.png width=20%>
+
+## 動画
 YouTube : https://youtu.be/QYnU6PeEx8s
-
-<img src=https://github.com/YusukeKato/Images_Repository/blob/master/ROCLinearTest_1on3_10fps.gif width=20%>
 
 ## 動作確認した環境
 
