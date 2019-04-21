@@ -4,7 +4,7 @@ Unity用パッケージ
 ## 動作時の参考動画
 YouTube : https://youtu.be/QYnU6PeEx8s
 
-<img src=https://github.com/YusukeKato/Images_Repository/blob/master/ROCLinearTest_1on3_10fps.gif width="640px">
+<img src=https://github.com/YusukeKato/Images_Repository/blob/master/ROCLinearTest_1on3_10fps.gif width=20%>
 
 ## 動作確認した環境
 
