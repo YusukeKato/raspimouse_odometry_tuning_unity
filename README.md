@@ -85,6 +85,13 @@ Inspector の Script の項目の右側にある二重丸みたいなのをク�
 3. 親がImageTarget、子がAssets > Prefabs > Marker となるように設定する。
 Marker をクリックで掴んで Hierarchy の ImageTarget に入れる。
 
+## 各ボタンのイベント設定
+Canvas > Panel > ***Button の Inspector を見て、
+ボタンにイベントが設定されているか確認する。
+
+されていない場合は、
+「ROSConnector」の関数を割り当てる。
+
 ## ImageTarget のスケール調整
 実際に使用する画像の大きさを計測して、
 ImageTarget の Scale に入力（単位はメートル）
