@@ -37,7 +37,7 @@ YouTube : https://youtu.be/QYnU6PeEx8s
 5. Assets > Scripts > CustomTrackableEventHandler を 
 ImageTarget へアタッチ（Add Component でもできる）
 
-<img src=./Figs/fig1.png width=50%>
+<img src=./Figs/fig1.png width=40%>
 
 ## VuforiaConfiguration
 1. Window > Vuforia Configuration を選択
@@ -69,6 +69,8 @@ Inspector の Script の項目の右側にある二重丸みたいなのをク�
 - IsMarkerFoundText -> TextIsFound
 - CalibrationFlagText -> CalibrationFlagText
 
+<img src=./Figs/fig2.png width=40%>
+
 ## ImageTarget への関連付け
 1. (Hierarchy) ImageTarget をクリック
 2. Inspector で以下のように設定
@@ -78,6 +80,8 @@ Inspector の Script の項目の右側にある二重丸みたいなのをク�
 - MarkerPrefab -> Marker
 - RosConnector -> ROSConnector
 
+<img src=./Figs/fig3.png width=40%>
+
 3. 親がImageTarget、子がAssets > Prefabs > Marker となるように設定する。
 Marker をクリックで掴んで Hierarchy の ImageTarget に入れる。
 
@@ -86,12 +90,13 @@ Marker をクリックで掴んで Hierarchy の ImageTarget に入れる。
 ImageTarget の Scale に入力（単位はメートル）
 
 ## ビルドセッティング
-1. File>BuildSettingを開く
-2. PlatformをiOSに変更
-3. PlayerSettingsボタンをクリック
-4. Inspectorの一番上にある(1)CompanyNameと(2)ProductNameを適当に入力
-5. OtherSettingの中のBundleIdentifierの項目に「com.(1).(2)」となるように入力
-6. XRSettingsでVuforiaAugmentedRealityにチェック
+1. File > BuildSetting を開く
+2. 「Add Open Scenes」ボタンを押してシーンを登録
+3. Platform を iOS に変更
+4. Player Settings ボタンをクリック
+5. Inspector の一番上にある (1)CompanyName と (2)ProductName を適当に入力
+6. OtherSetting の中の BundleIdentifier の項目に「com.(1).(2)」となるように入力
+7. XRSettings で Vuforia Augmented Reality にチェック
 
 ## ビルド
 ビルドする
