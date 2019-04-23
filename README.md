@@ -37,6 +37,8 @@ YouTube : https://youtu.be/QYnU6PeEx8s
 5. Assets > Scripts > CustomTrackableEventHandler を 
 ImageTarget へアタッチ（Add Component でもできる）
 
+<img src=./Figs/fig1.png width=50%>
+
 ## VuforiaConfiguration
 1. Window > Vuforia Configuration を選択
 2. 「Track Device Pose」という項目にチェック
