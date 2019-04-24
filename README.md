@@ -88,15 +88,16 @@ Marker をクリックで掴んで Hierarchy の ImageTarget に入れる。
 ## 各ボタンのイベント設定
 Canvas > Panel の中にある各Button の Inspector の一番下の項目
 「On Click ()」で図のようにイベントを設定する。
+
 （図はConnectButtonの場合）
 
 <img src=./Figs/fig4.png width=40%>
 
-ConnectButton -> ROSConnector > ConnectButton
-StartButton -> ROSConnector > StartButton
-MenuButton -> ROSConnector > ArrowResetButton
-CalibrationFlagButton -> ROSConnector > CalibrationFlagButton
-WorldAnchorButton -> ROSConnector > WorldAnchorButton
+- ConnectButton -> ROSConnector > ConnectButton
+- StartButton -> ROSConnector > StartButton
+- MenuButton -> ROSConnector > ArrowResetButton
+- CalibrationFlagButton -> ROSConnector > CalibrationFlagButton
+- WorldAnchorButton -> ROSConnector > WorldAnchorButton
 
 ## ImageTarget のスケール調整
 実際に使用する画像の大きさを計測して、
