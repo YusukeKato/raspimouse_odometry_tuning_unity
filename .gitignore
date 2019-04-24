@@ -1,7 +1,7 @@
-Assets/
-Logs/
-Packages/
-ProjectSettings/
+#Assets/
+#Logs/
+#Packages/
+#ProjectSettings/
 
 [Ll]ibrary/
 [Tt]emp/
