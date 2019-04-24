@@ -86,11 +86,17 @@ Inspector の Script の項目の右側にある二重丸みたいなのをク�
 Marker をクリックで掴んで Hierarchy の ImageTarget に入れる。
 
 ## 各ボタンのイベント設定
-Canvas > Panel > ***Button の Inspector を見て、
-ボタンにイベントが設定されているか確認する。
+Canvas > Panel の中にある各Button の Inspector の一番下の項目
+「On Click ()」で図のようにイベントを設定する。
+（図はConnectButtonの場合）
 
-されていない場合は、
-「ROSConnector」の関数を割り当てる。
+<img src=./Figs/fig4.png width=40%>
+
+ConnectButton -> ROSConnector > ConnectButton
+StartButton -> ROSConnector > StartButton
+MenuButton -> ROSConnector > ArrowResetButton
+CalibrationFlagButton -> ROSConnector > CalibrationFlagButton
+WorldAnchorButton -> ROSConnector > WorldAnchorButton
 
 ## ImageTarget のスケール調整
 実際に使用する画像の大きさを計測して、
