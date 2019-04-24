@@ -1,3 +1,5 @@
+xcode*
+
 ### https://raw.github.com/github/gitignore/26f49b0c26f639c44b02451426f32fc582bdef1d/Unity.gitignore
 
 # This .gitignore file should be placed at the root of your Unity project directory
@@ -57,5 +59,41 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+### original
+
+[Aa]ssets/Vuforia*
+[Aa]ssets/Resources/Vuforia*
+[Aa]ssets/Editor/Vuforia*
+[Aa]ssets/StreamingAssets/Vuforia*
+
+
+### https://raw.github.com/github/gitignore//Global/macOS.gitignore
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
 

@@ -13,13 +13,13 @@ YouTube : https://youtu.be/QYnU6PeEx8s
 
 ## 動作確認した環境
 - Unity
-	- 2018.3.0f2
 	- 2019.1.0f2
 - Vuforia
 	- 7.5.26
 	- 8.1.7
 - デバイス
-	- iPad 第六世代(iOS12)
+	- iPad 第5世代(iOS12)
+	- iPad 第6世代(iOS12)
 
 すでに Vuforia がインストールされていることが前提
 
@@ -39,6 +39,15 @@ ImageTarget へアタッチ（Add Component でもできる）
 
 <img src=./Figs/fig1.png width=40%>
 
+## ビルドセッティング
+1. File > BuildSetting を開く
+2. 「Add Open Scenes」ボタンを押してシーンを登録
+3. Platform を iOS に変更
+4. Player Settings ボタンをクリック
+5. Inspector の一番上にある (1)CompanyName と (2)ProductName を適当に入力
+6. OtherSetting の中の BundleIdentifier の項目に「com.(1).(2)」となるように入力
+7. XRSettings で Vuforia Augmented Reality にチェック
+
 ## VuforiaConfiguration
 1. Window > Vuforia Configuration を選択
 2. 「Track Device Pose」という項目にチェック
@@ -52,24 +61,6 @@ ImageTarget へアタッチ（Add Component でもできる）
 1. (Hierarchy) ROSConnectorをクリック。
 Inspector の Script の項目の右側にある二重丸みたいなのをクリック。
 選択画面が出てくるので「ROSConnector」を選択。
-2. Inspectorで以下のように設定
-
-＊ロボット側のIPアドレスもここで入力できる(はず)
-
-- ImageTarget -> ImageTarget
-- ParentObject -> ParentObject
-- ArrowBluePrefab -> Arrows-blue
-- ArrowRedPrefab -> Arrows-red
-
-- ConnectButtonText -> ConnectText
-- StartButtonText -> StartText
-- XZText -> TextXZ
-- YText -> TextY
-- IsStartText -> TextIsStart
-- IsMarkerFoundText -> TextIsFound
-- CalibrationFlagText -> CalibrationFlagText
-
-<img src=./Figs/fig2.png width=40%>
 
 ## ImageTarget への関連付け
 1. (Hierarchy) ImageTarget をクリック
@@ -102,15 +93,6 @@ Canvas > Panel の中にある各Button の Inspector の一番下の項目
 ## ImageTarget のスケール調整
 実際に使用する画像の大きさを計測して、
 ImageTarget の Scale に入力（単位はメートル）
-
-## ビルドセッティング
-1. File > BuildSetting を開く
-2. 「Add Open Scenes」ボタンを押してシーンを登録
-3. Platform を iOS に変更
-4. Player Settings ボタンをクリック
-5. Inspector の一番上にある (1)CompanyName と (2)ProductName を適当に入力
-6. OtherSetting の中の BundleIdentifier の項目に「com.(1).(2)」となるように入力
-7. XRSettings で Vuforia Augmented Reality にチェック
 
 ## ビルド
 ビルドする
