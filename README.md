@@ -89,6 +89,9 @@ Canvas > Panel の中にある各Button の Inspector の一番下の項目
 - CalibrationFlagButton -> ROSConnector > CalibrationFlagButton
 - WorldAnchorButton -> ROSConnector > WorldAnchorButton
 
+## ImageTarget の設定
+Image Target BehhaviourのDatabaseをVuforiaMars_Imagesにする
+
 ## ImageTarget のスケール調整
 実際に使用する画像の大きさを計測して、
 ImageTarget の Scale に入力（単位はメートル）
