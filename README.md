@@ -24,9 +24,8 @@ YouTube : https://youtu.be/QYnU6PeEx8s
 すでに Vuforia がインストールされていることが前提
 
 ## パッケージを Unity プロジェクトへインポート
-1. Unity で新規プロジェクト作成
-2. https://github.com/YusukeKato/raspimouse_odometry_tuning_unity をダウンロード
-3. そのディレクトリの中にある RaspimouseOdomTuning.unitypackage をインポート
+1. https://github.com/YusukeKato/raspimouse_odometry_tuning_unity をダウンロード
+2. ダウンロードしたUnityプロジェクトをUnityから開く
 
 ## Vuforiaのオブジェクトを配置
 1. (Project) Assets > Scenes > MainScene を開く 
