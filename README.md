@@ -6,7 +6,7 @@ ARライブラリを用いて移動ロボットの動きを補正するアプリ
 - ロボットが実際に移動した経路を可視化（画像の青色の矢印）
 - ロボットの動きをキャリブレーション（修正中のため使用できません）
 
-<img src=https://github.com/YusukeKato/Images_Repository/blob/master/ROC_SampleImage.png width=34%>
+<img src=https://github.com/YusukeKato/Images_Repository/blob/master/DemoMovieSquare4.gif width=34%>
 
 ## 動画
 YouTube : https://youtu.be/QYnU6PeEx8s
