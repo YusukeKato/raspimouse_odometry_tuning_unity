@@ -148,8 +148,9 @@ public class ROSConnector : MonoBehaviour {
     public bool isStart;
 
     // ROS PC IP Address
-    public string initialIpAddress = "192.168.22.12";
-    string ipAddress;
+    public string initialIpAddress;
+    // InputField
+    public InputField robotAddress;
 
     // Topic Name
     string topic_sub = "/odom";
@@ -189,8 +190,6 @@ public class ROSConnector : MonoBehaviour {
     public Text IsMarkerFoundText;
     public Text CalibrationFlagText;
 
-    // InputField
-    public InputField robotAddress;
 
     // Vuforiaのマーカ認識スクリプトから参照
     bool isMarkerFound;
@@ -245,8 +244,7 @@ public class ROSConnector : MonoBehaviour {
 
         origin_position = Vector3.zero;
         origin_rotation = Quaternion.identity;
-        ipAddress = initialIpAddress;
-        robotAddress.text = ipAddress;
+        robotAddress.text = initialIpAddress;
 
     }
 
@@ -316,12 +314,12 @@ public class ROSConnector : MonoBehaviour {
     // websocketの内容を定義 ----------------------------------------
     void WsSetting_sub()
     {
-        ws_sub = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_sub = new WebSocket("ws://" + robotAddress.text + ":9090/");
 
         ws_sub.OnOpen += (sender, e) =>
         {
             Debug.Log("WebSocket Open!!");
-            Debug.Log("connecting " + ipAddress);
+            Debug.Log("connecting " + robotAddress.text);
             RosData_sub data = new RosData_sub();
             data.op = op_sub;
             data.topic = topic_sub;
@@ -356,12 +354,12 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_sub2()
     {
-        ws_sub2 = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_sub2 = new WebSocket("ws://" + robotAddress.text + ":9090/");
 
         ws_sub2.OnOpen += (sender, e) =>
         {
             Debug.Log("WebSocket Open!!");
-            Debug.Log("connecting " + ipAddress);
+            Debug.Log("connecting " + robotAddress.text);
             RosData_sub data = new RosData_sub();
             data.op = op_sub;
             data.topic = topic_sub2;
@@ -396,7 +394,7 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_pub()
     {
-        ws_pub = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_pub = new WebSocket("ws://" + robotAddress.text + ":9090/");
 
         ws_pub.OnOpen += (sender, e) =>
         {
@@ -428,7 +426,7 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_pub2()
     {
-        ws_pub2 = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_pub2 = new WebSocket("ws://" + robotAddress.text + ":9090/");
 
         ws_pub2.OnOpen += (sender, e) =>
         {
@@ -592,40 +590,40 @@ public class ROSConnector : MonoBehaviour {
     // ボタンから接続と切断を操作---------------------------------------
     public void ConnectButton()
     {
-        if (isConnect == true)
+        if (isConnect)
         {
+            Debug.Log("Websocket Closeing ......");
             ws_sub.Close();
             //ws_sub2.Close();
             ws_pub.Close();
             ws_pub2.Close();
             isConnect = false;
             connectButtonText.text = "Connect";
-            Debug.Log("Websocket Close ......");
         }
-        else if (isConnect == false)
+        else
         {
+            Debug.Log("Websocket Connecting to " + robotAddress.text);
             ws_sub.Connect();
             //ws_sub2.Connect();
             ws_pub.Connect();
             ws_pub2.Connect();
             isConnect = true;
             connectButtonText.text = "DisConnect";
-            Debug.Log("Websocket Connect!!");
         }
     }
     // ------------------------------------------------------------
 
     public void StartButton()
     {
-        if(isStart == false)
-        {
-            isStart = true;
-            startButtonText.text = "Stop";
-        }
-        else if(isStart == true)
+        if(isStart)
         {
             isStart = false;
             startButtonText.text = "Start";
+        }
+        else
+        {
+            isStart = true;
+            startButtonText.text = "Stop";
         }
     }
 
@@ -661,14 +659,6 @@ public class ROSConnector : MonoBehaviour {
         //ワールド座標のアンカーを更新
         ParentObject.transform.position = ImageTarget.transform.position;
         ParentObject.transform.rotation = ImageTarget.transform.rotation;
-    }
-
-
-    // ------------------------------------------------------------
-    public void UpdateRobotAddress()
-    {
-        ipAddress = robotAddress.text;
-        Debug.Log("target IP " + ipAddress);
     }
 }
 
