@@ -1,5 +1,6 @@
 ﻿# raspimouse_odometry_tuning_unity
-ARライブラリを用いて移動ロボットの動きを補正するアプリケーションです。
+ARライブラリを用いて移動ロボットの動きを補正するアプリケーションです。  
+https://github.com/YusukeKato/raspimouse_odometry_tuning_ros と組み合わせて使用します。
 
 ## 機能
 - ロボットのオドメトリを可視化（画像の赤色の矢印）
