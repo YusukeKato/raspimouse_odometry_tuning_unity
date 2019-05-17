@@ -149,6 +149,7 @@ public class ROSConnector : MonoBehaviour {
 
     // ROS PC IP Address
     public string initialIpAddress;
+    string ipAddress;
     // InputField
     public InputField robotAddress;
 
@@ -219,10 +220,7 @@ public class ROSConnector : MonoBehaviour {
     void Start()
     {
         MyInit();
-        WsSetting_sub();
-        WsSetting_sub2();
-        WsSetting_pub();
-        WsSetting_pub2();
+        UpdateRobotAddress();
     }
 
     // 変数初期化
@@ -314,12 +312,12 @@ public class ROSConnector : MonoBehaviour {
     // websocketの内容を定義 ----------------------------------------
     void WsSetting_sub()
     {
-        ws_sub = new WebSocket("ws://" + robotAddress.text + ":9090/");
+        ws_sub = new WebSocket("ws://" + ipAddress + ":9090/");
 
         ws_sub.OnOpen += (sender, e) =>
         {
             Debug.Log("WebSocket Open!!");
-            Debug.Log("connecting " + robotAddress.text);
+            Debug.Log("connecting " + ipAddress);
             RosData_sub data = new RosData_sub();
             data.op = op_sub;
             data.topic = topic_sub;
@@ -354,12 +352,12 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_sub2()
     {
-        ws_sub2 = new WebSocket("ws://" + robotAddress.text + ":9090/");
+        ws_sub2 = new WebSocket("ws://" + ipAddress + ":9090/");
 
         ws_sub2.OnOpen += (sender, e) =>
         {
             Debug.Log("WebSocket Open!!");
-            Debug.Log("connecting " + robotAddress.text);
+            Debug.Log("connecting " + ipAddress);
             RosData_sub data = new RosData_sub();
             data.op = op_sub;
             data.topic = topic_sub2;
@@ -394,7 +392,7 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_pub()
     {
-        ws_pub = new WebSocket("ws://" + robotAddress.text + ":9090/");
+        ws_pub = new WebSocket("ws://" + ipAddress + ":9090/");
 
         ws_pub.OnOpen += (sender, e) =>
         {
@@ -426,7 +424,7 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_pub2()
     {
-        ws_pub2 = new WebSocket("ws://" + robotAddress.text + ":9090/");
+        ws_pub2 = new WebSocket("ws://" + ipAddress + ":9090/");
 
         ws_pub2.OnOpen += (sender, e) =>
         {
@@ -602,7 +600,8 @@ public class ROSConnector : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Websocket Connecting to " + robotAddress.text);
+            UpdateRobotAddress();
+            Debug.Log("Websocket Connecting to " + ipAddress);
             ws_sub.Connect();
             //ws_sub2.Connect();
             ws_pub.Connect();
@@ -659,6 +658,15 @@ public class ROSConnector : MonoBehaviour {
         //ワールド座標のアンカーを更新
         ParentObject.transform.position = ImageTarget.transform.position;
         ParentObject.transform.rotation = ImageTarget.transform.rotation;
+    }
+
+    public void UpdateRobotAddress()
+    {
+        ipAddress = robotAddress.text;
+        WsSetting_sub();
+        WsSetting_sub2();
+        WsSetting_pub();
+        WsSetting_pub2();
     }
 }
 
