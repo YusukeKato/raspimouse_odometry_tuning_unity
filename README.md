@@ -1,5 +1,6 @@
 ﻿# raspimouse_odometry_tuning_unity
-ARライブラリを用いて移動ロボットの動きを補正するアプリケーションです。
+ARライブラリを用いて移動ロボットの動きを補正するアプリケーションです。  
+https://github.com/YusukeKato/raspimouse_odometry_tuning_ros と組み合わせて使用します。
 
 ## 機能
 - ロボットのオドメトリを可視化（画像の赤色の矢印）
@@ -88,6 +89,9 @@ Canvas > Panel の中にある各Button の Inspector の一番下の項目
 - MenuButton -> ROSConnector > ArrowResetButton
 - CalibrationFlagButton -> ROSConnector > CalibrationFlagButton
 - WorldAnchorButton -> ROSConnector > WorldAnchorButton
+
+## ImageTarget の設定
+Image Target BehhaviourのDatabaseをVuforiaMars_Imagesにする
 
 ## ImageTarget のスケール調整
 実際に使用する画像の大きさを計測して、
