@@ -149,9 +149,12 @@ public class ROSConnector : MonoBehaviour {
 
     // ROS PC IP Address
     public string initialIpAddress;
+    public string initialConnectionPort;
     string ipAddress;
+    string connectionPort;
     // InputField
     public InputField robotAddress;
+    public InputField robotConnectionPort;
 
     // Topic Name
     string topic_sub = "/odom";
@@ -243,6 +246,7 @@ public class ROSConnector : MonoBehaviour {
         origin_position = Vector3.zero;
         origin_rotation = Quaternion.identity;
         robotAddress.text = initialIpAddress;
+        robotConnectionPort.text = initialConnectionPort;
 
     }
 
@@ -663,6 +667,7 @@ public class ROSConnector : MonoBehaviour {
     public void UpdateRobotAddress()
     {
         ipAddress = robotAddress.text;
+        connectionPort = robotConnectionPort.text;
         WsSetting_sub();
         WsSetting_sub2();
         WsSetting_pub();
