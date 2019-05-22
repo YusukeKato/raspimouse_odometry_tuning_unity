@@ -316,12 +316,12 @@ public class ROSConnector : MonoBehaviour {
     // websocketの内容を定義 ----------------------------------------
     void WsSetting_sub()
     {
-        ws_sub = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_sub = new WebSocket("ws://" + ipAddress + ":" + connectionPort + "/");
 
         ws_sub.OnOpen += (sender, e) =>
         {
             Debug.Log("WebSocket Open!!");
-            Debug.Log("connecting " + ipAddress);
+            Debug.Log("connecting " + ipAddress + ":" + connectionPort);
             RosData_sub data = new RosData_sub();
             data.op = op_sub;
             data.topic = topic_sub;
@@ -356,12 +356,12 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_sub2()
     {
-        ws_sub2 = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_sub2 = new WebSocket("ws://" + ipAddress + ":" + connectionPort + "/");
 
         ws_sub2.OnOpen += (sender, e) =>
         {
             Debug.Log("WebSocket Open!!");
-            Debug.Log("connecting " + ipAddress);
+            Debug.Log("connecting " + ipAddress + ":" + connectionPort);
             RosData_sub data = new RosData_sub();
             data.op = op_sub;
             data.topic = topic_sub2;
@@ -396,7 +396,7 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_pub()
     {
-        ws_pub = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_pub = new WebSocket("ws://" + ipAddress + ":" + connectionPort + "/");
 
         ws_pub.OnOpen += (sender, e) =>
         {
@@ -428,7 +428,7 @@ public class ROSConnector : MonoBehaviour {
 
     void WsSetting_pub2()
     {
-        ws_pub2 = new WebSocket("ws://" + ipAddress + ":9090/");
+        ws_pub2 = new WebSocket("ws://" + ipAddress + ":" + connectionPort + "/");
 
         ws_pub2.OnOpen += (sender, e) =>
         {
@@ -605,7 +605,7 @@ public class ROSConnector : MonoBehaviour {
         else
         {
             UpdateRobotAddress();
-            Debug.Log("Websocket Connecting to " + ipAddress);
+            Debug.Log("Websocket Connecting to " + ipAddress + " on Port " + connectionPort);
             ws_sub.Connect();
             //ws_sub2.Connect();
             ws_pub.Connect();
