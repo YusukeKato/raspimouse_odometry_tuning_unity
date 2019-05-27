@@ -16,7 +16,7 @@ public class CustomTrackableEventHandler : DefaultTrackableEventHandler
         base.OnTrackingFound();
 
         bool isStart = false;
-        isStart = rosConnector.GetComponent<ROSConnector>().isStart;
+        isStart = rosConnector.GetComponent<OdometryTuner>().isTuning;
         if (isStart == true && isFound == false)
         {
             isFound = true;
