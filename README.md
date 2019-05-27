@@ -22,7 +22,10 @@ YouTube : https://youtu.be/QYnU6PeEx8s
 	- iPad 第5世代(iOS12)
 	- iPad 第6世代(iOS12)
 
-すでに Vuforia がインストールされていることが前提
+すでに Vuforia がインストールされていることが前提です。インストールは以下を参考にしてください。
+
+* https://docs.unity3d.com/ja/current/Manual/GettingStartedInstallingHub.html
+* https://library.vuforia.com/articles/Training/getting-started-with-vuforia-in-unity.html
 
 ## パッケージを Unity プロジェクトへインポート
 1. https://github.com/YusukeKato/raspimouse_odometry_tuning_unity をダウンロード
@@ -46,7 +49,7 @@ ImageTarget へアタッチ（Add Component でもできる）
 4. Player Settings ボタンをクリック
 5. Inspector の一番上にある (1)CompanyName と (2)ProductName を適当に入力
 6. OtherSetting の中の BundleIdentifier の項目に「com.(1).(2)」となるように入力
-7. XRSettings で Vuforia Augmented Reality にチェック
+7. XRSettings で Vuforia Augmented Reality Supportedにチェック
 
 ## VuforiaConfiguration
 1. Window > Vuforia Configuration を選択
