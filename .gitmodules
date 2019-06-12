@@ -1,0 +1,4 @@
+[submodule "Assets/ROSBridgeSharp"]
+	path = Assets/ROSBridgeSharp
+	url = https://github.com/AtsushiSaito/ROSBridgeSharp
+	branch = unity_packaging
