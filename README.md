@@ -12,10 +12,10 @@ https://github.com/YusukeKato/raspimouse_odometry_tuning_ros と組み合わせ�
 ## 動画
 
 * アプリ使用デモ
-  * https://youtu.be/QYnU6PeEx8s
-  * https://youtu.be/WzJxbKnnwyw
+  * [![YouTube](https://img.youtube.com/vi/QYnU6PeEx8s/0.jpg)](https://www.youtube.com/watch?v=QYnU6PeEx8s)
+  * [![YouTube](https://img.youtube.com/vi/WzJxbKnnwyw/0.jpg)](https://www.youtube.com/watch?v=WzJxbKnnwyw)
 * 環境構築方法
-  * https://youtu.be/bdhoh1FPSFs
+  * [![YouTube](https://img.youtube.com/vi/bdhoh1FPSFs/0.jpg)](https://www.youtube.com/watch?v=bdhoh1FPSFs)
 
 ## 動作確認した環境
 - Unity
